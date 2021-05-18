@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.raulrezende.financialcontrol.entities.Customer;
+import com.raulrezende.financialcontrol.entities.dto.CustomerDTO;
 import com.raulrezende.financialcontrol.services.CustomerService;
 
 @RestController
@@ -19,8 +19,8 @@ public class CustomerResource {
 	private CustomerService service;
 	
 	@GetMapping
-	public ResponseEntity<List<Customer>> findAll() {
-		List<Customer> list = service.findAll();
+	public ResponseEntity<List<CustomerDTO>> findAll() {
+		List<CustomerDTO> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 }
