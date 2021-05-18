@@ -3,10 +3,13 @@ package com.raulrezende.financialcontrol.entities;
 import java.io.Serializable;
 import java.time.Instant;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 @Entity
@@ -23,8 +26,10 @@ public class Customer implements Serializable {
 	private String password;
 	private Boolean premium;
 	
+	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant createdAt;
-	private Instant updateAt;
+	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+	private Instant updatedAt;
 	
 	public Customer() {
 	}
@@ -90,18 +95,20 @@ public class Customer implements Serializable {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Instant createdAt) {
-		this.createdAt = createdAt;
-	}
-
 	public Instant getUpdateAt() {
-		return updateAt;
+		return updatedAt;
 	}
 
-	public void setUpdateAt(Instant updateAt) {
-		this.updateAt = updateAt;
+	@PrePersist
+	public void prePersist() {
+		createdAt = Instant.now();
 	}
-
+	
+	@PreUpdate
+	public void preUpdate() {
+		updatedAt = Instant.now();
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

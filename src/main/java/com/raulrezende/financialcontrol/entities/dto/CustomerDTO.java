@@ -7,11 +7,11 @@ import com.raulrezende.financialcontrol.entities.Customer;
 public class CustomerDTO {
 
 	private Long id;
-	private String firstName;
-	private String lastName;
+	private String firstname;
+	private String lastname;
 	private String email;
 	private String password;
-	private Boolean premium;
+	private Boolean premium = false;
 	
 	private Instant createdAt;
 	private Instant updateAt;
@@ -22,20 +22,21 @@ public class CustomerDTO {
 
 	public CustomerDTO(Long id, String firstName, String lastName, String email, String password) {
 		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
+		this.firstname = firstName;
+		this.lastname = lastName;
 		this.email = email;
 		this.password = password;
-		premium = false;
 	}
 	
 	public CustomerDTO(Customer entity) {
 		id = entity.getId();
-		firstName = entity.getFirstName();
-		lastName = entity.getLastName();
+		firstname = entity.getFirstName();
+		lastname = entity.getLastName();
 		email = entity.getEmail();
 		password = entity.getPassword();
 		premium = entity.getPremium();
+		createdAt = entity.getCreatedAt();
+		updateAt = entity.getUpdateAt();
 	}
 
 	public Long getId() {
@@ -47,19 +48,19 @@ public class CustomerDTO {
 	}
 
 	public String getFirstName() {
-		return firstName;
+		return firstname;
 	}
 
 	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+		this.firstname = firstName;
 	}
 
 	public String getLastName() {
-		return lastName;
+		return lastname;
 	}
 
 	public void setLastName(String lastName) {
-		this.lastName = lastName;
+		this.lastname = lastName;
 	}
 
 	public String getEmail() {

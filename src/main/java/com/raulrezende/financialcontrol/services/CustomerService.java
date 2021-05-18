@@ -31,4 +31,20 @@ public class CustomerService {
 		Customer entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
 		return new CustomerDTO(entity);
 	}
+
+	@Transactional
+	public CustomerDTO insert(CustomerDTO dto) {
+		Customer entity = new Customer();
+		copyDtoToEntity(dto, entity);
+		entity = repository.save(entity);
+		return new CustomerDTO(entity);
+	}
+	
+	private void copyDtoToEntity(CustomerDTO dto, Customer entity) {
+		entity.setFirstName(dto.getFirstName());
+		entity.setLastName(dto.getLastName());
+		entity.setEmail(dto.getEmail());
+		entity.setPassword(dto.getPassword());
+		entity.setPremium(dto.getPremium());
+	}
 }
