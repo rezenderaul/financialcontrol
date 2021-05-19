@@ -1,14 +1,14 @@
 package com.raulrezende.financialcontrol.services;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,9 +25,9 @@ public class CustomerService {
 	private CustomerRepository repository;
 
 	@Transactional(readOnly = true)
-	public List<CustomerDTO> findAll() {
-		List<Customer> list = repository.findAll();
-		return list.stream().map(x -> new CustomerDTO(x)).collect(Collectors.toList());
+	public Page<CustomerDTO> findAllPaged(PageRequest pageRequest) {
+		Page<Customer> list = repository.findAll(pageRequest);
+		return list.map(x -> new CustomerDTO(x));
 	}
 
 	@Transactional(readOnly = true)
