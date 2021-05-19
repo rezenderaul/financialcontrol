@@ -7,12 +7,15 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.raulrezende.financialcontrol.entities.Customer;
 import com.raulrezende.financialcontrol.entities.dto.CustomerDTO;
 import com.raulrezende.financialcontrol.repositories.CustomerRepository;
+import com.raulrezende.financialcontrol.services.exceptions.DatabaseException;
 import com.raulrezende.financialcontrol.services.exceptions.ResourceNotFoundException;
 
 @Service
@@ -52,6 +55,18 @@ public class CustomerService {
 		}
 		catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found " + id);
+		}
+	}
+
+	public void delete(Long id) {
+		try {
+			repository.deleteById(id);
+		}
+		catch (EmptyResultDataAccessException e) {
+			throw new DatabaseException("Id not found " + id);
+		}
+		catch (DataIntegrityViolationException e) {
+			throw new DatabaseException("Integrity violation");
 		}
 	}
 	
